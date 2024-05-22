@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.gif') }}">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Basic reset */
+        {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'DM Sans', sans-serif;
+        }
+        body, html {
+        height: 100%;
+        background-color: #FFFFFF;
+        }
+        /* Horizontal Top Navbar */
+        .top-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #FFF;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        position: fixed; /* Changed from 'relative' to 'fixed' */
+        width: 100%; /* Ensure it spans the full width of the viewport */
+        height: 60px;
+        top: 0; /* Align to the top of the viewport */
+        }
+        .nav-logo {
+        font-weight: bold;
+        font-size: 24px;
+        color: #333;
+        text-decoration: none;
+        }
+        .nav-items {
+        display: flex;
+        align-items: center;
+        }
+        .nav-items a {
+        margin: 0 1rem;
+        text-decoration: none;
+        color: #333;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .nav-items a:hover {
+        background-color: #f4f4f4;
+        color: #333;
+        }
+        .nav-user {
+        display: flex;
+        align-items: center;
+        margin-left: 2rem;
+        }
+        .nav-user img {
+        border-radius: 14PX;
+        margin-right: 10px;
+        width: 40px; /* Adjust as necessary */
+        height: 40px; /* Adjust as necessary */
+        }
+        .nav-user span {
+        margin-right: 1rem;
+        font-weight: 500;
+        }
+        /* Left Side Navbar */
+        .side-navbar {
+        position: fixed;
+        width: 250px;
+        height: 100%;
+        background-color: #333;
+        }
+        .side-navbar ul {
+        list-style-type: none;
+        }
+        .side-navbar ul li a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 0;
+        display: block;
+        }
+        .side-navbar .sign-out {
+        position: absolute;
+        bottom: 20px;
+        }
+        /* Main Content */
+        .main-content {
+        margin-left: 250px; /* Width of the side navbar */
+        padding: 1rem;
+        transition: margin-left 0.3s ease-in-out;
+        padding-top: 5rem;
+        height: 100%;
+        }
+        /* Responsive design */
+        @media (max-width: 1024px) {
+        .side-navbar {
+        width: 60px; /* Reduced width for smaller screens */
+        }
+        .main-content {
+        margin-left: 60px; /* Match the new width of the side navbar */
+        }
+        .nav-items a {
+        margin: 0 0.5rem; /* Reduced margin for smaller screens */
+        }
+        }
+    </style>
+    <style>
+        .sidebar {
+        height: 100vh;
+        width: 250px;
+        position: fixed;
+        left: 0;
+        top: 50px; /* Adjust based on the actual height of your header */
+        background-color: #FFF;
+        overflow-x: hidden;
+        padding-top: 20px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar-topic {
+        width: 95%;
+        height: 60px;
+        position: absolute;
+        right: 5px;
+        background-color: #9BCF53; /* Match the sidebar color */
+        border-radius: 16px;
+        padding: 16px 24px;
+        color: white;
+        font-size: 18px; /* Adjust if needed */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+        .sidebar a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #737791;
+        display: block;
+        position: relative; /* Make sure it respects the topic box position */
+        top: 74px; /* Adjust this based on the height and position of your topic box */
+        }
+        .sidebar a:hover {
+        background-color: #9BCF53;
+        color: #737791;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
+    <style>
+        .content-section {
+        display: none; /* Hide all content sections initially */
+        }
+        .content-section.active {
+        display: block; /* Show the active section */
+        height: 100%;
+        }
+    </style>
+    <style>
+        .hidden {
+            display: none !important;
+        }
+
+        .shown {
+            display: block !important; /* Adjust this as needed, e.g., flex, inline, etc. */
+        }
+
+    </style>
+    <style>
+        /* List styles */
+        .friendsList {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .list-group-item {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin: 10px 2.5%;
+            padding: 10px;
+            border-radius: 50%; /* Smoothed border radius */
+            background-color: #f9f9f9; /* Light grey background for better visibility */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Soft shadow for depth */
+            transition: all 0.3s ease; /* Smooth transition for hover effects */
+        }
+        .list-group-item:hover {
+            background-color: #e9ecef; /* Slightly darker on hover for interaction feedback */
+            transform: scale(1.03); /* Slight scale to indicate selection */
+        }
+
+        /* Profile picture and username styles */
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* Circle shape */
+            object-fit: cover; /* Ensure the image covers the area */
+            margin-right: 15px; /* Space between image and username */
+            margin-left: 15px; /* Space between image and username */
+        }
+        .username {
+            font-size: 1.2rem; /* Slightly larger font size */
+            color: #333; /* Dark grey for better readability */
+            font-weight: 500; /* Medium weight for emphasis */
+        }
+    </style>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+<!-- Horizontal Top Navbar -->
+<!-- Horizontal Top Navbar -->
+<nav class="top-navbar">
+    <div class="nav-logo">&nbsp;&nbsp;<i class="fab fa-pied-piper-square"></i>&nbsp;&nbsp;&nbsp;BCFS</div>
+    <div class="nav-items">
+        <a href="/home"><i class="fas fa-feather-alt"></i>&nbsp;&nbsp;&nbsp;Chat List&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href="/colleague"><i class="fas fa-user-shield"></i>&nbsp;&nbsp;Colleagues</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;&nbsp;Sign Out&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <div class="nav-user">
+            {% if user.profile_picture_uri %}
+            <img src="{{ user.profile_picture_uri }}" alt="Profile">
+            {% else %}
+            <img src="{{ url_for('static', filename='default-profile.jpg') }}" alt="Profile">
+            {% endif %}
+            <span>{{ user.username }}</span>
+        </div>
+    </div>
+</nav>
+<!-- Left Side Navbar -->
+<div class="sidebar">
+    <div class="sidebar-topic"><i class="fas fa-user-shield"></i>&nbsp;&nbsp;&nbsp;Colleagues</div>
+    <a href="#" onclick="showSection('Colleagues')"><i class="fas fa-user-friends"></i>&nbsp;&nbsp;&nbsp;Colleagues List</a>
+    <a href="#" onclick="showSection('Add')"><i class="fas fa-child"></i>&nbsp;&nbsp;&nbsp;Add Colleagues</a>
+    <a href="#" onclick="showSection('Requests')"><i class="fas fa-hands-helping"></i>&nbsp;&nbsp;&nbsp;Requests</a>
+
+</div>
+<!-- Main Content -->
+<div class="main-content">
+
+    <div id="Colleagues" class="content-section p-5 bg-light shadow-sm rounded-3 overflow-auto active">
+        <ul class="list-group" id="friendList">
+            {% for friend in friends %}
+            <li class="list-group-item d-flex justify-content-between align-items-center" >
+                <div class="user-info">
+                    {% if friend.profile_picture_uri %}
+                    <img src="{{ friend.profile_picture_uri }}" alt="{{ friend.username }}" class="profile-pic" >
+                    {% else %}
+                    <img src="{{ url_for('static', filename='default-profile.jpg') }}" alt="Default Profile" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                    {% endif %}
+                    <span class="username">{{ friend.username }}</span>
+                </div>
+                <button class="btn btn-danger remove-colleague-btn" data-recipient-id="{{ friend._id }}"><i class="fas fa-minus"></i> Remove Colleague</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+    <div id="Add" class="content-section p-5 bg-light shadow-sm rounded-3 overflow-auto">
+
+        <!-- And your user items in the list look something like this -->
+        <ul class="list-group" id="userList">
+            {% for user in users %}
+            <li class="list-group-item d-flex justify-content-between align-items-center " style="margin: 10px 2.5%; width: 95%; border-radius: 10px; background-color: #f8f9fa;">
+                <div class="user-info">
+                    {% if user.profile_picture_uri %}
+                    <img src="{{ user.profile_picture_uri }}" alt="{{ user.username }}" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='default-profile.jpg') }}" alt="Default Profile" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                    {% endif %}
+                    <span class="username">{{ user.username }}</span>
+                </div>
+                <button class="btn btn-primary add-colleague-btn" data-recipient-id="{{ user._id }}"><i class="fas fa-plus"></i> Add Colleague</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+
+    <div id="Requests" class="content-section p-5 bg-light shadow-sm rounded-3 overflow-auto" >
+        <ul class="list-group">
+            {% for user in requests %}
+            <li class="list-group-item d-flex justify-content-between align-items-center" style="margin: 10px 2.5%; width: 95%; border-radius: 10px; background-color: #f8f9fa;">
+                <div class="user-info">
+                    {% if user.profile_picture_uri %}
+                    <img src="{{ user.profile_picture_uri }}" alt="{{ user.username }}" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='default-profile.jpg') }}" alt="Default Profile" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                    {% endif %}
+                    <span>{{ user.username }}</span>
+                </div>
+                <div>
+                    <button class="btn btn-success" onclick="handleResponse('{{ user._id }}', true)"><i class="fas fa-check"></i> Confirm</button>
+                    <button class="btn btn-danger" onclick="handleResponse('{{ user._id }}', false)"><i class="fas fa-times"></i> Decline</button>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function showSection(sectionId) {
+        document.querySelectorAll('.content-section').forEach(function(page) {
+            page.classList.remove('active');
+        });
+        document.getElementById(sectionId).classList.add('active');
+    }
+</script>
+<script>
+    $(document).ready(function() {
+
+        $('.add-colleague-btn').click(function() {
+            var recipientId = $(this).data('recipient-id');
+            $.post('/send_request/' + recipientId, function(data) {
+                alert(data.message);
+            }).fail(function(response) {
+                alert(response.responseJSON.error);
+            });
+        });
+    });
+</script>
+<script>
+    function handleResponse(userId, accepted) {
+        const url = '/respond_request/' + userId;
+        const data = { accepted: accepted };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            location.reload(); // Reload the page to update the list
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.remove-colleague-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const recipientId = this.getAttribute('data-recipient-id');
+                fetch(`/remove_colleague/${recipientId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId: 'current_user_id' })  // Replace 'current_user_id' with actual logged-in user ID
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Something went wrong on the server!');
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Colleague removed successfully');
+                    // Remove the list item from the UI
+                    const listItem = this.closest('.list-group-item');
+                    if (listItem) {
+                        listItem.remove();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to remove colleague.');
+                });
+            });
+        });
+    });
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+</html>

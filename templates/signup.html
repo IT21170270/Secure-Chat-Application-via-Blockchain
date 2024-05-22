@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.gif') }}">
+    <style>
+        body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'DM Sans', sans-serif;
+        background-color: #FFFFFF;
+        overflow: hidden;
+        }
+        .container {
+        display: flex;
+        flex-wrap: nowrap;
+        height: 100vh;
+        }
+        .form-container {
+        flex-basis: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        }
+        .background-image {
+        flex-basis: 50%;
+        background: linear-gradient(135deg, #868CFF 0%, #4318FF 100%);
+        border-radius: 0 0 0 200px;
+        background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+        background-size: cover;
+        background-position: center;
+        }
+        .form-header h1 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #2B3674;
+        }
+        .form-header p {
+        font-size: 16px;
+        color: #A3AED0;
+        }
+        .form-body {
+        width: 100%;
+        max-width: 410px;
+        padding: 20px;
+        }
+        .input-group {
+        width: 100%;
+        margin-bottom: 20px;
+        }
+        .input-group label {
+        display: block;
+        font-size: 14px;
+        color: #2B3674;
+        margin-bottom: 5px;
+        }
+        .input-group input {
+        width: 100%;
+        padding: 15px;
+        font-size: 14px;
+        color: #A3AED0;
+        border: 1px solid #E0E5F2;
+        border-radius: 16px;
+        }
+        .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        }
+        .checkbox input {
+        margin-right: 10px;
+        }
+        .checkbox label {
+        font-size: 14px;
+        color: #2B3674;
+        }
+        .forgot-password {
+        font-size: 14px;
+        color: #416D19;
+        text-decoration: none;
+        }
+        .submit-button {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+        color: #FFFFFF;
+        background: #9BCF53;
+        border-radius: 16px;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+        }
+        .create-account {
+        text-align: center;
+        font-size: 14px;
+        color: #2B3674;
+        margin-top: 20px;
+        }
+        .create-account a {
+        color: #2B3674;
+        text-decoration: none;
+        }
+        .file-upload-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        }
+        .file-upload-wrapper input[type="file"] {
+        font-size: 14px;
+        color: #A3AED0;
+        padding: 10px;
+        background: white;
+        border: 2px dashed #E0E5F2;
+        border-radius: 16px;
+        width: 100%;
+        cursor: pointer;
+        opacity: 0; /* Hide the default input */
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        }
+        .file-upload-wrapper:hover input[type="file"] {
+        border-style: solid;
+        }
+        #file-name {
+        font-size: 14px;
+        color: #2B3674;
+        padding: 10px;
+        display: block; /* Make it a block to fill the wrapper */
+        border-radius: 16px;
+        background: #F4F5FA;
+        border: 1px solid #E0E5F2;
+        text-align: center;
+        }
+        .file-upload-wrapper:hover #file-name {
+        background: #E0E5F2;
+        }
+        /* Responsive design */
+        @media (max-width: 1024px) {
+        .container {
+        flex-direction: column;
+        }
+        .form-container, .background-image {
+        flex-basis: 100%;
+        }
+        .background-image {
+        border-radius: 0;
+        }
+        }
+        /* Add animations */
+        @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+        }
+        .form-container, .background-image {
+        animation: fadeIn 1s ease-in-out;
+        }
+        .input-group input, .submit-button, .create-account a {
+        transition: all 0.3s ease-in-out;
+        }
+        .input-group input:focus, .submit-button:hover, .create-account a:hover {
+        transform: scale(1.02);
+        }
+        /* Responsive design */
+        @media (max-width: 1024px) {
+        /* ... */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Sign Up</h1>
+            <p>Fill in the details to create your account</p>
+        </div>
+        <form class="form-body" enctype="multipart/form-data" action="/register" method="post">
+            <div class="input-group">
+                <label for="username">Username*</label>
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email*</label>
+                <input type="email" id="email" placeholder="mail@example.com" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password*</label>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <div class="input-group">
+                <label for="confirm-password">Confirm Password*</label>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+            </div>
+            <div class="input-group">
+                <label for="profile-picture">Profile Picture</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="profile-picture" accept="image/*" onchange="updateFileName(this)">
+                    <span id="file-name">No file chosen...</span>
+                </div>
+            </div>
+            <button type="submit" class="submit-button">Sign Up</button>
+        </form>
+        <div class="create-account">
+            <p>Already have an account? <a href="/">Sign In</a></p>
+        </div>
+    </div>
+    <div class="background-image"></div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Focus the username input on load
+        document.getElementById('username').focus();
+
+        document.querySelector('.form-body').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData();
+            formData.append('username', document.getElementById('username').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('password', document.getElementById('password').value);
+            formData.append('confirm-password', document.getElementById('confirm-password').value);
+
+            // Handling file input for the profile picture
+            const profilePicture = document.getElementById('profile-picture').files[0];
+            if (profilePicture) {
+                formData.append('profile-picture', profilePicture);
+            }
+
+            // Client-side Validation
+            if (!formData.get('username') || !formData.get('email') || !formData.get('password') || !formData.get('confirm-password')) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            if (formData.get('password') !== formData.get('confirm-password')) {
+                alert('Passwords do not match.');
+                return;
+            }
+
+            // Fetch API to send form data to server
+            fetch('/register', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // or response.text() if server returns non-JSON data
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                console.log('Success:', data);
+                alert('Sign-up successful! Redirecting to the home page.');
+                window.location.href = '/login';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Failed to register. Please try again.');
+            });
+        });
+
+
+        // Visual feedback for the submit button
+            const submitButton = document.querySelector('.submit-button');
+            submitButton.addEventListener('mouseover', () => {
+                submitButton.style.backgroundColor = '#83d674'; // Lighter green when hovered
+            });
+            submitButton.addEventListener('mouseout', () => {
+                submitButton.style.backgroundColor = '#9BCF53'; // Original color when not hovered
+            });
+    });
+</script>
+<script>
+    function updateFileName(input) {
+        var fileName = input.files[0].name;
+        document.getElementById('file-name').textContent = fileName; // Display file name
+    }
+</script>
+</body>
+</html>

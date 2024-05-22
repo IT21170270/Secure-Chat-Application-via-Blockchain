@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.gif') }}">
+    <title>Dashboard</title>
+    <!-- Include your stylesheet links here (Bootstrap, custom CSS, etc.) -->
+    <style>
+        /* Basic reset */
+        {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'DM Sans', sans-serif;
+        }
+        body, html {
+        height: 100%;
+        background-color: #FFFFFF;
+        }
+        /* Horizontal Top Navbar */
+        .top-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #FFF;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        position: fixed; /* Changed from 'relative' to 'fixed' */
+        width: 100%; /* Ensure it spans the full width of the viewport */
+        height: 60px;
+        top: 0; /* Align to the top of the viewport */
+        }
+        .nav-logo {
+        font-weight: bold;
+        font-size: 24px;
+        color: #333;
+        text-decoration: none;
+        }
+        .nav-items {
+        display: flex;
+        align-items: center;
+        }
+        .nav-items a {
+        margin: 0 1rem;
+        text-decoration: none;
+        color: #333;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .nav-items a:hover {
+        background-color: #f4f4f4;
+        color: #333;
+        }
+        .nav-user {
+        display: flex;
+        align-items: center;
+        margin-left: 2rem;
+        }
+        .nav-user img {
+        border-radius: 14PX;
+        margin-right: 10px;
+        width: 40px; /* Adjust as necessary */
+        height: 40px; /* Adjust as necessary */
+        }
+        .nav-user span {
+        margin-right: 1rem;
+        font-weight: 500;
+        }
+        /* Left Side Navbar */
+        .side-navbar {
+        position: fixed;
+        width: 250px;
+        height: 100%;
+        background-color: #333;
+        }
+        .side-navbar ul {
+        list-style-type: none;
+        }
+        .side-navbar ul li a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 0;
+        display: block;
+        }
+        .side-navbar .sign-out {
+        position: absolute;
+        bottom: 20px;
+        }
+        /* Main Content */
+        .main-content {
+        margin-left: 250px; /* Width of the side navbar */
+        padding: 1rem;
+        transition: margin-left 0.3s ease-in-out;
+        padding-top: 5rem;
+        height: 100%;
+        }
+        /* Responsive design */
+        @media (max-width: 1024px) {
+        .side-navbar {
+        width: 60px; /* Reduced width for smaller screens */
+        }
+        .main-content {
+        margin-left: 60px; /* Match the new width of the side navbar */
+        }
+        .nav-items a {
+        margin: 0 0.5rem; /* Reduced margin for smaller screens */
+        }
+        }
+    </style>
+    <style>
+        .sidebar {
+        height: 100vh;
+        width: 250px;
+        position: fixed;
+        left: 0;
+        top: 50px; /* Adjust based on the actual height of your header */
+        background-color: #FFF;
+        overflow-x: hidden;
+        padding-top: 20px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar-topic {
+        width: 95%;
+        height: 60px;
+        position: absolute;
+        right: 5px;
+        background-color: #9BCF53; /* Match the sidebar color */
+        border-radius: 16px;
+        padding: 16px 24px;
+        color: white;
+        font-size: 18px; /* Adjust if needed */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+        .sidebar a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #737791;
+        display: block;
+        position: relative; /* Make sure it respects the topic box position */
+        top: 74px; /* Adjust this based on the height and position of your topic box */
+        }
+        .sidebar a:hover {
+        background-color: #9BCF53;
+        color: #737791;
+        }
+    </style>
+    <style>
+        .content-section {
+        display: none; /* Hide all content sections initially */
+        }
+        .content-section.active {
+        display: block; /* Show the active section */
+        height: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    <!-- Add CSS to set font-family -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* List styles */
+        .friendsList {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .list-group-item {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin: 10px 2.5%;
+            padding: 10px;
+            border-radius: 50%; /* Smoothed border radius */
+            background-color: #f9f9f9; /* Light grey background for better visibility */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Soft shadow for depth */
+            transition: all 0.3s ease; /* Smooth transition for hover effects */
+        }
+        .list-group-item:hover {
+            background-color: #e9ecef; /* Slightly darker on hover for interaction feedback */
+            transform: scale(1.03); /* Slight scale to indicate selection */
+        }
+
+        /* Profile picture and username styles */
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* Circle shape */
+            object-fit: cover; /* Ensure the image covers the area */
+            margin-right: 15px; /* Space between image and username */
+            margin-left: 15px; /* Space between image and username */
+        }
+        .username {
+            font-size: 1.2rem; /* Slightly larger font size */
+            color: #333; /* Dark grey for better readability */
+            font-weight: 500; /* Medium weight for emphasis */
+        }
+    </style>
+
+
+
+</head>
+<body>
+<!-- Horizontal Top Navbar -->
+<!-- Horizontal Top Navbar -->
+<nav class="top-navbar">
+    <div class="nav-logo">&nbsp;&nbsp;<i class="fab fa-pied-piper-square"></i>&nbsp;&nbsp;&nbsp;BCFS</div>
+    <div class="nav-items">
+        <a href="/home"><i class="fas fa-feather-alt"></i>&nbsp;&nbsp;&nbsp;Chat List&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href="/colleague"><i class="fas fa-user-shield"></i>&nbsp;&nbsp;Colleagues</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;&nbsp;Sign Out&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <div class="nav-user">
+            {% if user.profile_picture_uri %}
+            <img src="{{ user.profile_picture_uri }}" alt="Profile">
+            {% else %}
+            <img src="{{ url_for('static', filename='default-profile.jpg') }}" alt="Profile">
+            {% endif %}
+            <span>{{ user.username }}</span> <!-- Display user's name -->
+        </div>
+    </div>
+</nav>
+<!-- Left Side Navbar -->
+<div class="sidebar">
+    <div class="sidebar-topic"><i class="fas fa-feather-alt"></i>&nbsp;&nbsp;&nbsp;Chat List&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+
+    <div id="dashboard" class="content-section p-5 bg-light shadow-sm rounded-3 overflow-auto active">
+        <ul class="friendsList" id="friendList">
+            {% for friend in friends %}
+            <li class="list-group-item d-flex justify-content-between align-items-center" style="margin: 2.5%; height: 100px; border-radius: 100px; background-color: white;">
+                <!-- Wrap the clickable area in an anchor tag -->
+                <a href="/chat/{{ friend._id }}" style="text-decoration: none; color: inherit; width: 100%;">
+                    <div class="user-info d-flex align-items-center">
+                        {% if friend.profile_picture_uri %}
+                        <img src="{{ friend.profile_picture_uri }}" alt="{{ friend.username }}" class="profile-pic">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='default-profile.jpg') }}" alt="Default Profile" class="profile-pic">
+                        {% endif %}
+                        <span class="username">{{ friend.username }}</span>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+</div>
+<script>
+    function showSection(sectionId) {
+        document.querySelectorAll('.content-section').forEach(function(page) {
+            page.classList.remove('active');
+        });
+        document.getElementById(sectionId).classList.add('active');
+    }
+</script>
+</body>
+</html>

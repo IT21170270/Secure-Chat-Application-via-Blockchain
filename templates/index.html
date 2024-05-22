@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.gif') }}">
+    <style>
+        body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'DM Sans', sans-serif;
+        background-color: #FFFFFF;
+        overflow: hidden;
+        }
+        .container {
+        display: flex;
+        flex-wrap: nowrap;
+        height: 100vh;
+        }
+        .form-container {
+        flex-basis: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        }
+        .background-image {
+        flex-basis: 50%;
+        background: linear-gradient(135deg, #868CFF 0%, #4318FF 100%);
+        border-radius: 0 0 0 200px;
+        background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+        background-size: cover;
+        background-position: center;
+        }
+        .form-header h1 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #2B3674;
+        }
+        .form-header p {
+        font-size: 16px;
+        color: #A3AED0;
+        }
+        .form-body {
+        width: 100%;
+        max-width: 410px;
+        padding: 20px;
+        }
+        .input-group {
+        width: 100%;
+        margin-bottom: 20px;
+        }
+        .input-group label {
+        display: block;
+        font-size: 14px;
+        color: #2B3674;
+        margin-bottom: 5px;
+        }
+        .input-group input {
+        width: 100%;
+        padding: 15px;
+        font-size: 14px;
+        color: #A3AED0;
+        border: 1px solid #E0E5F2;
+        border-radius: 16px;
+        }
+        .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        }
+        .checkbox input {
+        margin-right: 10px;
+        }
+        .checkbox label {
+        font-size: 14px;
+        color: #2B3674;
+        }
+        .forgot-password {
+        font-size: 14px;
+        color: #416D19;
+        text-decoration: none;
+        }
+        .submit-button {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+        color: #FFFFFF;
+        background: #9BCF53;
+        border-radius: 16px;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+        }
+        .create-account {
+        text-align: center;
+        font-size: 14px;
+        color: #2B3674;
+        margin-top: 20px;
+        }
+        .create-account a {
+        color: #2B3674;
+        text-decoration: none;
+        }
+        /* Responsive design */
+        @media (max-width: 1024px) {
+        .container {
+        flex-direction: column;
+        }
+        .form-container, .background-image {
+        flex-basis: 100%;
+        }
+        .background-image {
+        border-radius: 0;
+        }
+        }
+        /* Add animations */
+        @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+        }
+        .form-container, .background-image {
+        animation: fadeIn 1s ease-in-out;
+        }
+        .input-group input, .submit-button, .create-account a {
+        transition: all 0.3s ease-in-out;
+        }
+        .input-group input:focus, .submit-button:hover, .create-account a:hover {
+        transform: scale(1.02);
+        }
+        /* Responsive design */
+        @media (max-width: 1024px) {
+        /* ... */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Sign In</h1>
+            <p>Enter your email and password to sign in!</p>
+        </div>
+        <form class="form-body" action="/login" method="post">
+            <div class="input-group">
+                <label for="email">Email*</label>
+                <input type="email" id="email" placeholder="mail@example.com">
+            </div>
+            <div class="input-group">
+                <label for="password">Password*</label>
+                <input type="password" id="password" placeholder="Password">
+            </div>
+            <button type="submit" class="submit-button">Sign In</button>
+        </form>
+        <div class="create-account">
+            <p>Not registered yet? <a href="/signup">Create an Account</a></p>
+        </div>
+    </div>
+    <div class="background-image"></div>
+</div>
+<script>
+    // JavaScript for additional interactivity if needed
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Focus the email input on load
+        document.getElementById('email').focus();
+
+        document.querySelector('.form-body').addEventListener('submit', function(e) {
+            e.preventDefault();  // Prevent the default form submission
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                alert('Please fill in both email and password.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('password', password);
+
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())  // Parse JSON response from the server
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    console.log('Success:', data);
+                    alert('Login successful! Redirecting to the home page.');
+                    window.location.href = data.redirect;  // Redirect after successful login
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to log in. Please check your credentials and try again.');
+            });
+        });
+
+        // Other interactive or animated effects can be added as needed
+        // For example, a simple animation to highlight the submit button
+        const submitButton = document.querySelector('.submit-button');
+        submitButton.addEventListener('mouseover', () => {
+            submitButton.style.backgroundColor = '#83d674'; // Lighter green when hovered
+        });
+        submitButton.addEventListener('mouseout', () => {
+            submitButton.style.backgroundColor = '#9BCF53'; // Original color when not hovered
+        });
+    });
+</script>
+</body>
+</html>

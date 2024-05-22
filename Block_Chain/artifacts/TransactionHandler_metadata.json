@@ -1,0 +1,208 @@
+{
+	"compiler": {
+		"version": "0.8.22+commit.4fc1097e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "transactionId",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "messageText",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "fileHash",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"name": "TransactionStored",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_transactionId",
+						"type": "bytes32"
+					}
+				],
+				"name": "getTransaction",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "sender",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "receiver",
+								"type": "address"
+							},
+							{
+								"internalType": "string",
+								"name": "messageText",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "fileHash",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct TransactionHandler.Transaction",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_receiver",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "_messageText",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_fileHash",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_timestamp",
+						"type": "uint256"
+					}
+				],
+				"name": "storeTransaction",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "transactions",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "messageText",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "fileHash",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Users/thenethsanjukatheneth/Documents/Block_Chain_File_Sharing/Block_Chain/contract.sol": "TransactionHandler"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Users/thenethsanjukatheneth/Documents/Block_Chain_File_Sharing/Block_Chain/contract.sol": {
+			"keccak256": "0xaa6d54339ffe62e1b70c0529f6852ff6d316b0f79196600572ee19ac38c3d0ce",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a778467fbd3c45103ce16b3bc8fba8219dd8d0c245afe6b3bb9666543bc12ffc",
+				"dweb:/ipfs/QmZcgRvy94xdbxhjpCuN4SLok1tLvyPx7P3Exj5qnvSk4q"
+			]
+		}
+	},
+	"version": 1
+}
